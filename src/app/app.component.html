@@ -1,0 +1,52 @@
+<h1>Employee Task Tracker</h1>
+
+<form (ngSubmit)="addTask()" #taskForm="ngForm">
+  <label>Employee Name:
+    <input type="text" name="employeeName" [(ngModel)]="task.employeeName" required>
+  </label><br>
+
+  <label>Task Title:
+    <input type="text" name="title" [(ngModel)]="task.title" required>
+  </label><br>
+
+  <label>Priority:
+    <select name="priority" [(ngModel)]="task.priority" required>
+      <option value="">--Select--</option>
+      <option>Low</option>
+      <option>Medium</option>
+      <option>High</option>
+    </select>
+  </label><br>
+
+  <label>Due Date:
+    <input type="date" name="dueDate" [(ngModel)]="task.dueDate" required>
+  </label><br>
+
+  <button type="submit">Add Task</button>
+</form>
+
+<hr>
+
+<h2 *ngIf="tasks.length > 0">Assigned Tasks</h2>
+<p *ngIf="tasks.length === 0">No tasks assigned yet.</p>
+
+<table *ngIf="tasks.length > 0" border="1">
+  <thead>
+    <tr>
+      <th>Employee Name</th>
+      <th>Task Title</th>
+      <th>Priority</th>
+      <th>Due Date</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let t of tasks; let i = index">
+      <td>{{ t.employeeName }}</td>
+      <td [ngStyle]="{ 'font-size': getFontSize(t.priority) }">{{ t.title }}</td>
+      <td [ngClass]="getPriorityClass(t.priority)">{{ t.priority }}</td>
+      <td>{{ t.dueDate }}</td>
+      <td><button (click)="removeTask(i)">Complete</button></td>
+    </tr>
+  </tbody>
+</table>
